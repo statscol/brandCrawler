@@ -32,8 +32,8 @@ def results():
 		detections=get_brand_expo(det_name)
 		print("elapsed time {:.2f} seconds".format((datetime.datetime.now()-inicio).total_seconds()))
 		print(detections)
-		return (detections)
-		#return render_template('results.html',dat=detections)
+		#return (detections)
+		return render_template('results.html',tables=[detections.to_html(classes='detections', header="true")],video=busq)
 
 
 if __name__ == "__main__":

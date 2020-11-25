@@ -23,7 +23,7 @@ def yout_to_detections(link_vid,path_dest,file_desc,DARKNET_PATH):
     
     files=os.listdir(path_dest+file_desc+'/')
     if len(files)==0:
-        return("403: Link Not Valid or doesn't contain 720p version")
+        return("203: Link Not Valid or doesn't contain 720p version")
     else:  
         
 #        os.rename(out_vid,vid_name)
@@ -111,11 +111,9 @@ def get_brand_expo(JSON_FILE_AUX,IMG_WIDTH=1280,IMG_HEIGHT=720):
   indice_std=scaler.fit_transform(indice[:,0].reshape((-1,1)))*100
 
   
-
-
   avr_data['exposicion']=indice_std
   avr_data['filename']=JSON_FILE_AUX.replace(".json","")
-
-  return(avr_data)
+  avr_data=avr_data[avr_data['exposicion']>1]
+  return(avr_data[['area_rel','appearances_rel','time_proxy','exposicion']].reset_index())
 
 

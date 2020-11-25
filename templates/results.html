@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div><h2>Detecciones Finalizadas para {{video}}</h2></div>>
+
+
+<table>
+<tr>
+  <th>Marca</th>
+  <th>Área rel(AOS)</th> 
+  <th>Apariciones</th>
+  <th>Tiempo (SOT)</th>
+  <th>Índice Exposición</th>
+</tr>
+{% for r in results %}
+<tr>
+  <td>{{ r[0] }}</td>
+  <td>{{ r[1] }}</td> 
+  <td>{{ r[2] }}</td>
+  <td>{{ r[3] }}</td>
+  <td>{{ r[4] }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock content %}
