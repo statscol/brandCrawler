@@ -11,6 +11,7 @@ from sklearn.decomposition import PCA
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
 
 
 
@@ -58,7 +59,7 @@ def yout_to_detections(link_vid,path_dest,file_desc,DARKNET_PATH):
         for file in names_img:
             os.remove(file)
         print("Detections...completed")
-
+        os.remove(path_dest+vid_name+".txt")
         return("/home/jf/"+vid_name+".json")
 
 def get_brand_expo(JSON_FILE_AUX,IMG_WIDTH=1280,IMG_HEIGHT=720):
@@ -114,6 +115,17 @@ def get_brand_expo(JSON_FILE_AUX,IMG_WIDTH=1280,IMG_HEIGHT=720):
   avr_data['exposicion']=indice_std
   avr_data['filename']=JSON_FILE_AUX.replace(".json","")
   avr_data=avr_data[avr_data['exposicion']>1]
-  return(avr_data[['area_rel','appearances_rel','time_proxy','exposicion']].reset_index())
+ # os.remove("/home/jf/"+vid_name+".json")
+  return(avr_data[['area_rel','appearances_rel','time_proxy','exposicion']].reset_index().sort_values(by="exposicion",ascending=True))
 
-
+def gen_img(data_expo,path_app):
+   
+    f,ax=plt.subplots(figsize=(10,8),dpi=200)
+    ax.barh(data_expo['detections'],data_expo['exposicion'],color="darkred")
+    ax.set_ylabel("Marca",fontsize=15)
+    ax.set_xlabel("Indice de Exposición (%)",fontsize=15)
+    ax.set_title("Exposición de Marcas para el Video",fontsize=15)
+    if os.path.isfile(path_app+"static/img/prueba.png"): ##probar si la imágen existe
+       os.remove(path_app+"static/img/prueba.png") 
+    f.savefig(path_app+"static/img/prueba.png")
+#    f.savefig("/static/prueba.png")

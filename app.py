@@ -5,11 +5,15 @@ import requests
 import re
 import pytube
 import datetime
-from auxiliar import yout_to_detections,get_brand_expo
+import matplotlib.pyplot as plt
+from auxiliar import yout_to_detections,get_brand_expo,gen_img
+
+
+
 
 DARKNET_PATH="/home/jf/yolov4/darknet/"
 ROOT_DIR='/home/jf/'
-
+PATH_APP='/home/jf/Desktop/brandCrawler/'
 app=Flask(__name__)
 
 
@@ -32,8 +36,11 @@ def results():
 		detections=get_brand_expo(det_name)
 		print("elapsed time {:.2f} seconds".format((datetime.datetime.now()-inicio).total_seconds()))
 		print(detections)
+		gen_img(detections,path_app=PATH_APP)
+
+
 		#return (detections)
-		return render_template('results.html',tables=[detections.to_html(classes='detections', header="true")],video=busq)
+		return render_template('results.html',html=detections.to_html(),video=busq)
 
 
 if __name__ == "__main__":
